@@ -1,0 +1,22 @@
+---
+- match: \<3\s.*\s?(pony|kuce|kucyki)
+  reply: "Kuce! Kuce są fajne!"
+  
+- match: (pedał|pedau|gej)
+  reply: "Frendship is magic!"
+  
+- match: (steak|stek|stejk|sztejk)
+  reply: "sztejki Roberta Burneiki"
+  
+#snailbot
+- match: "42"
+  reply: "42 is the answer to life, universe and everything else. But what is the question?"
+  
+- match: "i'll have to think about it"
+  reply: "yeah, you do that... and in the meantime, shut up!"
+  
+- match: "\\(=\\^;\\^=\\) pika pi"
+  reply: "snailbot: seriously?"
+  
+- match: "OMG SHOUTING"
+  reply: "snailbot: RYJ!"
