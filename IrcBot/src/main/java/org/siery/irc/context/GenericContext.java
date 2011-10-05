@@ -1,5 +1,7 @@
 package org.siery.irc.context;
 
+import java.util.List;
+
 import org.siery.irc.KraszBot;
 import org.siery.irc.reply.ReplyHandler;
 import org.siery.irc.user.User;
@@ -32,6 +34,11 @@ public abstract class GenericContext {
 		bot.sendMessage(channel, message);
 	}
 	
+	public void sendMultipleMessages(List<String> messages) {
+		for(String s : messages)
+			sendMessage(s);
+	}
+	 
 	public ReplyHandler getReplyHolder() {
 		return bot.getReplyHandler();
 	}
