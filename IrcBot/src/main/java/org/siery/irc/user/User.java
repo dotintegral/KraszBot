@@ -60,6 +60,17 @@ public class User {
 		return true;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		User user = (User) obj;
+		return matches(user) || user.matches(this);
+	}
+	
+	@Override
+	public int hashCode() {
+		return 42;
+	}
+
 	private boolean matchNick(User u) {;
 		boolean match = WildcardRegex.matchWildcards(getNick(), u.getNick());
 		return match;
@@ -73,5 +84,22 @@ public class User {
 	private boolean matchHostname(User u) {
 		boolean match = WildcardRegex.matchWildcards(getHostname(), u.getHostname());
 		return match;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [nick=");
+		builder.append(nick);
+		builder.append(", login=");
+		builder.append(login);
+		builder.append(", hostname=");
+		builder.append(hostname);
+		builder.append(", auth=");
+		builder.append(auth);
+		builder.append(", authed=");
+		builder.append(authed);
+		builder.append("]");
+		return builder.toString();
 	}
 }
