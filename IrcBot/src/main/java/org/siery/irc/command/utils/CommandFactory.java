@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.siery.irc.command.CommandsCommand;
 import org.siery.irc.command.HelpCommand;
 import org.siery.irc.command.Magic8BallCommand;
+import org.siery.irc.command.MemoCommand;
 import org.siery.irc.command.MoreCommand;
 import org.siery.irc.command.NickHuntCommand;
 import org.siery.irc.command.PonyCommand;
@@ -28,6 +29,7 @@ public class CommandFactory {
 		commands.add(new WolframAlphaCommand());
 		commands.add(new MoreCommand());
 		commands.add(new ReadCommand());
+		commands.add(new MemoCommand());
 
 		return commands;
 	}
