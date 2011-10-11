@@ -7,10 +7,11 @@ public class KraszBotMain {
 	public static void main(String[] args) throws Exception {
 
 		KraszBot bot = new KraszBot();
-		bot.setVerbose(false);
+		bot.setMessageDelay(500);
+		bot.setVerbose(true);
 		bot.connect("irc.quakenet.org");
 		bot.joinChannel("#kucbot");
-		bot.joinChannel("#karton");
+		
 	}
 
 }

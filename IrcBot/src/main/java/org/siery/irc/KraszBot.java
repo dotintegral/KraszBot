@@ -9,6 +9,7 @@ import org.jibble.pircbot.PircBot;
 import org.siery.irc.action.ActionHandler;
 import org.siery.irc.command.abstracts.ArgumentCommand;
 import org.siery.irc.command.abstracts.Command;
+import org.siery.irc.command.abstracts.OptionalArgumentCommand;
 import org.siery.irc.command.utils.CommandHolder;
 import org.siery.irc.context.ActionContext;
 import org.siery.irc.context.CommandContext;
