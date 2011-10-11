@@ -1,61 +1,64 @@
 package org.siery.irc.action.memo;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.siery.irc.user.ChannelUser;
 import org.siery.irc.user.User;
 
 public class MemoHolder {
 
-	private List<Memo> memoList;
+	private Map<ChannelUser, List<Memo>> memoMap;
 	
-	public MemoHolder() {
-		memoList = new ArrayList<Memo>();
+	private static MemoHolder instance;
+	
+	private MemoHolder() {
+		memoMap = new HashMap<ChannelUser, List<Memo>>();
+	}	
+	
+	public static MemoHolder getInstance() {
+		if(instance == null)
+			instance = new MemoHolder();
+		return instance;
 	}
-	
+
 	public void addMemo(Memo memo) {
-		memoList.add(memo);
+		List<Memo> memos = getMemoListForUser(memo.getReciever());
+		memos.add(memo);
 	}
 	
-	public int countMemo(User user, String channel, boolean isNew) {
+	private List<Memo> getMemoListForUser(ChannelUser reciever) {
+		if(memoMap.containsKey(reciever)) {
+			return memoMap.get(reciever);
+		} else {
+			List<Memo> memos = new ArrayList<Memo>();
+			memoMap.put(reciever, memos);
+			return memos;
+		}
+	}
+
+	public int countMemo(ChannelUser channelUser, boolean isNew) {
 		int i = 0;
 		
-		for(Memo memo : memoList) {
-			if(memoMatches(user, channel, memo)) {
-				i = countConsideringNewAndOld(isNew, i, memo);
-			}
-		}
-		
-		return i;
-	}
-
-	private boolean memoMatches(User user, String channel, Memo memo) {
-		return memo.getReciever().matches(user) && channel.equals(memo.getChannel());
-	}
-
-	private int countConsideringNewAndOld(boolean isNew, int i, Memo memo) {
-		if(isNew) {
-			if(memo.isNewMemo()) {
-				i++;
-				memo.setNewMemo(false);
-			}
-		} else {
+		for(Memo memo : getMemoListForUser(channelUser)) {
+			memo.setNewMemo(false);
 			i++;
 		}
 		
 		return i;
 	}
 	
-	public List<Memo> getMemosFor(User user) {
-		List<Memo> memos = new ArrayList<Memo>();
-		
-		for(Memo memo : memoList) {
-			if(user.matches(memo.getReciever())) {
-				memos.add(memo);
-				memoList.remove(memo);
-			}
-		}
-		
+	public List<Memo> getMemosFor(ChannelUser channelUser) {
+		List<Memo> memos = getMemoListForUser(channelUser);
+		clearMemoListFor(channelUser);
 		return memos;
+	}
+	
+	private void clearMemoListFor(ChannelUser channelUser) {
+		List<Memo> emptyMemoList = new ArrayList<Memo>();
+		memoMap.put(channelUser, emptyMemoList);
 	}
 }
