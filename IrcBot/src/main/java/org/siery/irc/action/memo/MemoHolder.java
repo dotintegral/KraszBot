@@ -44,8 +44,10 @@ public class MemoHolder {
 		int i = 0;
 		
 		for(Memo memo : getMemoListForUser(channelUser)) {
-			memo.setNewMemo(false);
-			i++;
+			if(memo.isNewMemo()) {
+				memo.setNewMemo(false);
+				i++;
+			}
 		}
 		
 		return i;
