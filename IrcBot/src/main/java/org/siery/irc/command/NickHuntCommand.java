@@ -24,7 +24,7 @@ public class NickHuntCommand extends UserCommand implements ArgumentCommand {
 	}
 
 	protected void onSuccess() {
-		String hostname = getContext().getHostname();
+		String hostname = getContext().getServer();
 		String channel = getContext().getChannel();
 		String hunterNick = getContext().getUser().getNick();
 		

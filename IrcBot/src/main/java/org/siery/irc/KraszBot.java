@@ -81,9 +81,7 @@ public class KraszBot extends PircBot {
 		
 		try {
 			tryExecuteCommand(message, context);
-		} catch (CommandNotFoundException e) {
-			e.printStackTrace();
-		}
+		} catch (CommandNotFoundException e) {}
 	}
 
 	private void tryExecuteCommand(Message message, CommandContext context) throws CommandNotFoundException {

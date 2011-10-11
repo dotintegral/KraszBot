@@ -44,7 +44,7 @@ public class NickHunter extends PircBot{
 		Random r = new Random();
 		this.setVerbose(true);
 		this.setName(botNickBase + r.nextInt(1000));
-		this.connect(context.getHostname());
+		this.connect(context.getServer());
 		this.joinChannel(context.getChannel());
 		
 		this.sendMessage(context.getChannel(), "Hunting for " + targetNick);

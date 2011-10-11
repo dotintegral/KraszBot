@@ -32,12 +32,12 @@ public abstract class GenericContext {
 		return channel;
 	}
 	
-	public String getHostname() {
+	public String getServer() {
 		return bot.getServer();
 	}
 	
 	public ChannelUser getChannelUser() {
-		return new ChannelUser(getUser(), getChannel(), getHostname());
+		return new ChannelUser(getUser(), getChannel(), getServer());
 	}
 	
 	public void sendMessage(String message) {
