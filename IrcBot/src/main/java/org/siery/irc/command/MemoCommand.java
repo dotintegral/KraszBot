@@ -42,28 +42,36 @@ public class MemoCommand extends UserCommand implements ArgumentCommand {
 			
 			String nick = args.get(0);
 			User user = new User(nick, "*", "*");
+			ChannelUser channelUser = getChannelUser(user);
 			
-			String channel = getContext().getChannel();
-			String server = getContext().getServer();
-			ChannelUser channelUser = new ChannelUser(user, channel, server);
-			
-			Memo memo = new Memo();
-			memo.setDate(new Date());
-			memo.setNewMemo(true);
-			memo.setReciever(channelUser);
-			memo.setSender(getContext().getChannelUser());
-			
-			String message = "";
-			
-			for(int i=1; i<args.size(); i++)
-				message += args.get(i);
-			
-			memo.setMessage(message);
-			
+			Memo memo = createNewMemo(channelUser);
 			MemoHolder.getInstance().addMemo(memo);
 			
 			getContext().sendMessage(getContext().getUser().getNick() + ", dodano memo dla " + nick);
 		}
+	}
+
+	private Memo createNewMemo(ChannelUser channelUser) {
+		Memo memo = new Memo();
+		memo.setDate(new Date());
+		memo.setNewMemo(true);
+		memo.setReciever(channelUser);
+		memo.setSender(getContext().getChannelUser());
+		
+		String message = "";
+		
+		for(int i=1; i<args.size(); i++)
+			message += args.get(i) + " ";
+		
+		memo.setMessage(message);
+		return memo;
+	}
+
+	private ChannelUser getChannelUser(User user) {
+		String channel = getContext().getChannel();
+		String server = getContext().getServer();
+		ChannelUser channelUser = new ChannelUser(user, channel, server);
+		return channelUser;
 	}
 
 	@Override
