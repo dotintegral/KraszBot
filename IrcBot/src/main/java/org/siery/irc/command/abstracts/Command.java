@@ -21,7 +21,7 @@ public abstract class Command {
 	}
 	
 	public static final String getCommandPrefix() {
-		return "~";
+		return ";";
 	}
 	
 	public abstract String getCommand();
