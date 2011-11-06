@@ -1,7 +1,7 @@
 package org.siery.irc.command;
 
 import org.siery.irc.command.abstracts.OwnerCommand;
-import org.siery.irc.reply.ReplyFactory;
+import org.siery.irc.config.reader.ReplyConfigReader;
 
 public class ReloadCommand extends OwnerCommand {
 

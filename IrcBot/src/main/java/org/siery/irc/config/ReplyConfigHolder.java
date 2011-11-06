@@ -1,20 +1,21 @@
-package org.siery.irc.reply;
+package org.siery.irc.config;
 
 import java.util.ArrayList;
 
+import org.siery.irc.config.reader.ReplyConfigReader;
 import org.siery.irc.context.ReplyContext;
 import org.siery.irc.dto.Reply;
 import org.siery.utils.regex.RegexMatcher;
 
-public class ReplyHandler {
+public class ReplyConfigHolder {
 	private ArrayList<Reply> replies;
 	
-	public ReplyHandler() {
-		replies = ReplyFactory.getReplies();
+	public ReplyConfigHolder() {
+		replies = ReplyConfigReader.getReplies();
 	}
 	
 	public void reload() {
-		replies = ReplyFactory.getReplies();
+		replies = ReplyConfigReader.getReplies();
 	}
 	
 	public void reply(ReplyContext context) {

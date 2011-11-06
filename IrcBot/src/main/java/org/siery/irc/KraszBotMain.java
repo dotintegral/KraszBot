@@ -1,16 +1,22 @@
 package org.siery.irc;
 
 import org.jibble.pircbot.*;
+import org.siery.irc.config.ConfigHolder;
+import org.siery.irc.config.ConnectionConfigHolder;
 
 public class KraszBotMain {
 
 	public static void main(String[] args) throws Exception {
 
-		KraszBot bot = new KraszBot();
-		bot.setMessageDelay(500);
+		ConnectionConfigHolder config = ConfigHolder.getInstance().getConnectionConfigHolder();
+		KraszBot bot = new KraszBot(config.getName());
+	
+		bot.setMessageDelay(config.getMessagesDelay());
 		bot.setVerbose(true);
-		bot.connect("irc.quakenet.org");
-		bot.joinChannel("#kucbot");
+		bot.connect(config.getServer());
+		
+		for(String channel : config.getChannels())
+			bot.joinChannel(channel);
 		
 	}
 

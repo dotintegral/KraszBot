@@ -5,11 +5,11 @@ public class ConfigHolder {
 	private static ConfigHolder instance;
 	
 	private CommandConfigHolder commandConfigHolder;
-	private MainConfigHolder mainConfigHolder;
+	private ConnectionConfigHolder connectionConfigHolder;
 	
 	private ConfigHolder() {
 		commandConfigHolder = new CommandConfigHolder();
-		mainConfigHolder = new MainConfigHolder();
+		connectionConfigHolder = new ConnectionConfigHolder();
 	}
 	
 	public static ConfigHolder getInstance() {
@@ -23,7 +23,12 @@ public class ConfigHolder {
 		return commandConfigHolder;
 	}
 
-	public MainConfigHolder getMainConfigHolder() {
-		return mainConfigHolder;
+	public ConnectionConfigHolder getConnectionConfigHolder() {
+		return connectionConfigHolder;
+	}
+	
+	public void reload() {
+		commandConfigHolder.reload();
+		connectionConfigHolder.reload();
 	}
 }

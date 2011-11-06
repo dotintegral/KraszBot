@@ -1,4 +1,4 @@
-package org.siery.irc.reply;
+package org.siery.irc.config.reader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +13,7 @@ import java.util.Map;
 import org.siery.irc.dto.Reply;
 import org.yaml.snakeyaml.Yaml;
 
-public class ReplyFactory {
+public class ReplyConfigReader {
 	
 	private static String repliesFileLocation = "config/replies.yml";
 

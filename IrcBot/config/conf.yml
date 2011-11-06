@@ -1,0 +1,8 @@
+---
+name: "kucbot|test"
+msgDelay: 500
+msgSentTogether: 5
+verbose: true
+server: "xs4all.nl.quakenet.org"
+channels:
+ - "#kucbot"

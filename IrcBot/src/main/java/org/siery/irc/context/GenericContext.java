@@ -7,8 +7,8 @@ import org.siery.irc.KraszBot;
 import org.siery.irc.buffer.MessageBuffer;
 import org.siery.irc.command.MoreCommand;
 import org.siery.irc.config.ConfigHolder;
-import org.siery.irc.config.MainConfigHolder;
-import org.siery.irc.reply.ReplyHandler;
+import org.siery.irc.config.ConnectionConfigHolder;
+import org.siery.irc.config.ReplyConfigHolder;
 import org.siery.irc.user.ChannelUser;
 import org.siery.irc.user.User;
 
@@ -46,7 +46,7 @@ public abstract class GenericContext {
 	
 	public void sendMultipleMessages(List<String> messages) {
 		
-		MainConfigHolder config = ConfigHolder.getInstance().getMainConfigHolder();
+		ConnectionConfigHolder config = ConfigHolder.getInstance().getConnectionConfigHolder();
 		int limit = config.getMessagesSentTogether();
 		int delay = config.getMessagesDelay();
 		
@@ -91,7 +91,7 @@ public abstract class GenericContext {
 		}
 	}
 	 
-	public ReplyHandler getReplyHolder() {
+	public ReplyConfigHolder getReplyHolder() {
 		return bot.getReplyHandler();
 	}
 	

@@ -11,13 +11,13 @@ import org.siery.irc.command.abstracts.ArgumentCommand;
 import org.siery.irc.command.abstracts.Command;
 import org.siery.irc.command.abstracts.OptionalArgumentCommand;
 import org.siery.irc.command.utils.CommandHolder;
+import org.siery.irc.config.ReplyConfigHolder;
 import org.siery.irc.context.ActionContext;
 import org.siery.irc.context.CommandContext;
 import org.siery.irc.context.ReplyContext;
 import org.siery.irc.dto.Message;
 import org.siery.irc.exception.CommandNotFoundException;
 import org.siery.irc.exception.NullArgumentsException;
-import org.siery.irc.reply.ReplyHandler;
 import org.siery.irc.user.User;
 import org.siery.irc.user.UserHolder;
 
@@ -25,16 +25,16 @@ public class KraszBot extends PircBot {
 	
 	private UserHolder userHolder;
 	private CommandHolder commandHolder;
-	private ReplyHandler replyHandler;
+	private ReplyConfigHolder replyHandler;
 	private ActionHandler actionHandler;
 
-	public KraszBot() {
+	public KraszBot(String name) {
 		commandHolder = new CommandHolder();
 		userHolder = new UserHolder();
-		replyHandler = new ReplyHandler();
+		replyHandler = new ReplyConfigHolder();
 		actionHandler = new ActionHandler();
 		
-		this.setName("kucbot");
+		this.setName(name);
 	}
 	
 	@Override
@@ -129,7 +129,7 @@ public class KraszBot extends PircBot {
 	}
 	
 	
-	public ReplyHandler getReplyHandler() {
+	public ReplyConfigHolder getReplyHandler() {
 		return replyHandler;
 	}
 
