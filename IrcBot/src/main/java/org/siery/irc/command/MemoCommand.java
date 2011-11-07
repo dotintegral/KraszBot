@@ -12,6 +12,7 @@ import org.siery.irc.user.User;
 
 public class MemoCommand extends UserCommand implements ArgumentCommand {
 
+	private int numberOfNicks;
 	private List<String> args = null;
 	
 	@Override
@@ -26,12 +27,13 @@ public class MemoCommand extends UserCommand implements ArgumentCommand {
 
 	@Override
 	public String getUsage() {
-		return getCommandPrefix() + getCommand() + " nick wiadomość";
+		return getCommandPrefix() + getCommand() + " nick[, nick2, nick3, ...] wiadomość";
 	}
 
 	@Override
 	public String getInfo() {
-		return "Pozwala na pozostawienie wiadomości dla nieobecnego użytkownika";
+		return "Pozwala na pozostawienie wiadomości dla nieobecnego użytkownika. " +
+				"Można podać kilka nicków, rozdzielając je przecinkami";
 	}
 
 	@Override
@@ -39,16 +41,51 @@ public class MemoCommand extends UserCommand implements ArgumentCommand {
 		if(args.size() < 2) {
 			getContext().sendMessage("Podaj wiadomość");
 		} else {
-			
-			String nick = args.get(0);
-			User user = new User(nick, "*", "*");
-			ChannelUser channelUser = getChannelUser(user);
-			
-			Memo memo = createNewMemo(channelUser);
-			MemoHolder.getInstance().addMemo(memo);
-			
-			getContext().sendMessage(getContext().getUser().getNick() + ", dodano memo dla " + nick);
+			addNewMemo();
 		}
+	}
+
+	private void addNewMemo() {
+		
+		numberOfNicks = getNumberOfNicks();
+		
+		if(numberOfNicks == args.size()) {
+			getContext().sendMessage("Podaj wiadomość");
+		} else {
+			addMemoForAllUsers();
+		}
+		
+	}
+
+	private void addMemoForAllUsers() {
+		String infoNicks = "";
+		
+		for(int i=0; i<numberOfNicks; i++) {
+			String nick = args.get(i);
+			addMemoFor(nick.replace(",", ""));
+			infoNicks += nick + " ";
+		}
+		
+		getContext().sendMessage(getContext().getUser().getNick() + ", dodano memo dla " + infoNicks);
+	}
+
+	private int getNumberOfNicks() {
+		int numberOfNicks = 1;
+		for(int i=0; i<args.size(); i++) {
+			if(args.get(i).endsWith(","))
+				numberOfNicks = i+2;
+		}
+		return numberOfNicks;
+	}
+	
+	
+
+	private void addMemoFor(String nick) {
+		User user = new User(nick, "*", "*");
+		ChannelUser channelUser = getChannelUser(user);
+		
+		Memo memo = createNewMemo(channelUser);
+		MemoHolder.getInstance().addMemo(memo);
 	}
 
 	private Memo createNewMemo(ChannelUser channelUser) {
@@ -60,7 +97,7 @@ public class MemoCommand extends UserCommand implements ArgumentCommand {
 		
 		String message = "";
 		
-		for(int i=1; i<args.size(); i++)
+		for(int i=numberOfNicks; i<args.size(); i++)
 			message += args.get(i) + " ";
 		
 		memo.setMessage(message);
