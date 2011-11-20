@@ -22,7 +22,7 @@ public class WolframAlphaCommand extends UserCommand implements ArgumentCommand 
 	public void setAgruments(List<String> args) {
 		arguments = "";
 		for (String argument : args)
-			arguments += argument;
+			arguments += " " + argument;
 	}
 	
 	private void l(String s) {
