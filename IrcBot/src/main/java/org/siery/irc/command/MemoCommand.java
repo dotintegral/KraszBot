@@ -74,6 +74,8 @@ public class MemoCommand extends UserCommand implements ArgumentCommand {
 		for(int i=0; i<args.size(); i++) {
 			if(args.get(i).endsWith(","))
 				numberOfNicks = i+2;
+			else
+				break;
 		}
 		return numberOfNicks;
 	}
