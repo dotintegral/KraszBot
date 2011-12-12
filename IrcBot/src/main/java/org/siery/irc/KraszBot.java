@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.jibble.pircbot.PircBot;
 import org.siery.irc.action.ActionHandler;
+import org.siery.irc.action.ActionType;
 import org.siery.irc.command.abstracts.ArgumentCommand;
 import org.siery.irc.command.abstracts.Command;
 import org.siery.irc.command.abstracts.OptionalArgumentCommand;
@@ -18,6 +19,7 @@ import org.siery.irc.context.ReplyContext;
 import org.siery.irc.dto.Message;
 import org.siery.irc.exception.CommandNotFoundException;
 import org.siery.irc.exception.NullArgumentsException;
+import org.siery.irc.user.ChannelUser;
 import org.siery.irc.user.User;
 import org.siery.irc.user.UserHolder;
 
@@ -40,7 +42,8 @@ public class KraszBot extends PircBot {
 	@Override
 	public void onAction(String sender, String login, String hostname, String target, String action) {
 		User user = new User(sender, login, hostname);
-		ActionContext context = new ActionContext(this, user, target, action);
+		ChannelUser channelUser = new ChannelUser(user, target, this.getServer());
+		ActionContext context = new ActionContext(this, channelUser, action, ActionType.ACTION);
 		executeAction(context);
 	}
 
@@ -48,7 +51,33 @@ public class KraszBot extends PircBot {
 	public void onMessage(String channel, String sender, String login, String hostname, String chanelMessage) {
 		Message message = new Message(channel, sender, login, hostname, chanelMessage);
 		parseMessage(message);
+		ActionContext context = new ActionContext(this, message);
+		executeAction(context);
 	}
+	
+	@Override
+	public void onJoin(String channel, String nick, String login, String hostname) {
+		User user = new User(nick, login, hostname);
+		ChannelUser channelUser = new ChannelUser(user, channel, this.getServer());
+		ActionContext context = new ActionContext(this, channelUser, "", ActionType.JOIN);
+		executeAction(context);
+	}
+	
+	@Override
+	public void onPart(String channel, String nick, String login, String hostname) {
+		User user = new User(nick, login, hostname);
+		ChannelUser channelUser = new ChannelUser(user, channel, this.getServer());
+		ActionContext context = new ActionContext(this, channelUser, "", ActionType.PART);
+		executeAction(context);
+	}
+	
+	@Override
+	public void onQuit(String nick, String login, String hostname, String reason) {
+		User user = new User(nick, login, hostname);
+		ActionContext context = new ActionContext(this, user, reason, ActionType.QUIT);
+		executeAction(context);
+	}
+	
 	
 	private void parseMessage(Message message) {
 		
@@ -56,13 +85,10 @@ public class KraszBot extends PircBot {
 			executeCommand(message);
 		else
 			executeReply(message);
-
-		ActionContext context = new ActionContext(this, message);
-		executeAction(context);
 	}
 
 	private void executeAction(ActionContext context) {
-		actionHandler.findAndExecuteAction(context);
+		actionHandler.executeAction(context);
 	}
 
 	private boolean isCommand(Message message) {

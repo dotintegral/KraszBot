@@ -8,6 +8,7 @@ public class ActionFactory {
 		List<Action> actions = new ArrayList<Action>();
 		
 		actions.add(new MemoAction());
+		actions.add(new ActivityAction());
 		
 		return actions;
 	}
