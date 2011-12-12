@@ -23,6 +23,17 @@ public abstract class GenericContext {
 		this.bot = bot;
 		this.channel = channel;
 	}
+	
+	public GenericContext(KraszBot bot, User user) {
+		this.user = user;
+		this.bot = bot;
+	}
+	
+	public GenericContext(KraszBot bot, ChannelUser channelUser) {
+		this.user = channelUser.getUser();
+		this.bot = bot;
+		this.channel = channelUser.getChannel();
+	}
 
 	public User getUser() {
 		return user;
@@ -30,6 +41,13 @@ public abstract class GenericContext {
 
 	public String getChannel() {
 		return channel;
+	}
+	
+	public boolean hasChannel() {
+		if(channel != null)
+			return true;
+		else
+			return false;
 	}
 	
 	public String getServer() {

@@ -22,7 +22,7 @@ public class CommandFactory {
 		ArrayList<Command> commands = new ArrayList<Command>();
 
 		commands.add(new CommandsCommand());
-		commands.add(new NickHuntCommand());
+		//commands.add(new NickHuntCommand());
 		commands.add(new ReloadCommand());
 		commands.add(new HelpCommand());
 		commands.add(new Magic8BallCommand());

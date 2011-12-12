@@ -12,9 +12,10 @@ public class ActionHandler {
 		actions = ActionFactory.getActions();
 	}
 	
-	public void findAndExecuteAction(ActionContext context) {
+	public void executeAction(ActionContext context) {
 		for(Action a : actions) {
-			a.execute(context);
+			if(a.toExecute(context))
+				a.execute(context);
 		}
 	}
 }
